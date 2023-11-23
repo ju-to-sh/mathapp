@@ -14,7 +14,7 @@ export const CalculationCard = (props: Props) => {
     <Card maxW="250px" m="0 auto">
       <CardBody m="0 auto">
         <Stack>
-          <Image src={src} width={150} height={150} alt={alt} />
+          <Image src={src} width={180} height={150} alt={alt} />
           <Heading size="md">かけざん</Heading>
           <Text>小学校3年生レベル</Text>
         </Stack>
