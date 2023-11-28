@@ -1,7 +1,7 @@
 "use client";
 
 import { Container, Heading, UnorderedList, ListItem, Input, Box, Button } from "@chakra-ui/react";
-import { isEqual } from "lodash";
+import { isEqual, chunk } from "lodash";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 
@@ -19,16 +19,17 @@ const MultiplicationPage: NextPage = () => {
     return array;
   };
 
-  const sliceRandomArray = (array: number[], divide: number) => {
-    const newArray = [];
-    const length = array.length;
-    for (let i = 0; i < Math.ceil(length / divide); i++) {
-      let j = i * divide;
-      let p = array.slice(j, j + divide);
-      newArray.push(p);
-    }
-    return newArray;
-  };
+  /* lodashを使用しない場合の配列を区切る関数 */
+  // const sliceRandomArray = (array: number[], divide: number) => {
+  //   const newArray = [];
+  //   const length = array.length;
+  //   for (let i = 0; i < Math.ceil(length / divide); i++) {
+  //     let j = i * divide;
+  //     let p = array.slice(j, j + divide);
+  //     newArray.push(p);
+  //   }
+  //   return newArray;
+  // };
 
   const genAnswer = (num: number[][] | null) => {
     let obj: Answer = {};
@@ -54,7 +55,7 @@ const MultiplicationPage: NextPage = () => {
     setUserAnswer((prev) => ({ ...prev, [e.target.name]: Number(e.target.value) }));
   };
 
-  const RandomArray = sliceRandomArray(getRandomArray(12, 20), 2);
+  const RandomArray = chunk(getRandomArray(12, 20), 2);
   const [number, setNumber] = useState<number[][] | null>(null);
   const [userAnswer, setUserAnswer] = useState({});
 
