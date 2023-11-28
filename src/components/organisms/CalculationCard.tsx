@@ -5,10 +5,11 @@ import Link from "next/link";
 type Props = {
   src: string;
   alt: string;
+  href: string;
 };
 
 export const CalculationCard = (props: Props) => {
-  const { src, alt } = { ...props };
+  const { src, alt, href } = { ...props };
 
   return (
     <Card maxW="250px" m="0 auto">
@@ -20,7 +21,7 @@ export const CalculationCard = (props: Props) => {
         </Stack>
       </CardBody>
       <CardFooter m="0 auto">
-        <Link href="/">
+        <Link href={href}>
           <Button variant="solid" colorScheme="blue">
             始める
           </Button>
