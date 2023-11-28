@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Heading, UnorderedList, ListItem, Input, Box, Button } from "@chakra-ui/react";
+import { Container, Heading, UnorderedList, ListItem, Input, Box, Button, Spinner } from "@chakra-ui/react";
 import { isEqual, chunk } from "lodash";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -69,13 +69,16 @@ const MultiplicationPage: NextPage = () => {
         かけざん
       </Heading>
       <UnorderedList fontSize="32px" p="8px" m="0 auto">
-        {number &&
+        {number ? (
           number.map((dispNumber, index) => (
             <ListItem key={index} display="flex" alignItems="center" justifyContent="center">
               <Box p="8px">{`Q${index + 1}.  ${dispNumber[0]} × ${dispNumber[1]} = `}</Box>
               <Input width="110px" fontSize="32px" borderColor="#333333" name={`Q${index + 1}`} type="number" onChange={onChangeAnswer} />
             </ListItem>
-          ))}
+          ))
+        ) : (
+          <Spinner size="xl" />
+        )}
       </UnorderedList>
       <Button variant="solid" colorScheme="blue" onClick={onClickJudge}>
         回答する
