@@ -1,7 +1,7 @@
 "use client";
 
-import { Container, Heading, UnorderedList, ListItem, Input, Box, Button, Spinner } from "@chakra-ui/react";
-import { isEqual, chunk } from "lodash";
+import { Container, Heading, UnorderedList, ListItem, Input, Box, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription, useBoolean } from "@chakra-ui/react";
+import { isEqual, chunk, without } from "lodash";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 
@@ -19,18 +19,6 @@ const MultiplicationPage: NextPage = () => {
     return array;
   };
 
-  /* lodashを使用しない場合の配列を区切る関数 */
-  // const sliceRandomArray = (array: number[], divide: number) => {
-  //   const newArray = [];
-  //   const length = array.length;
-  //   for (let i = 0; i < Math.ceil(length / divide); i++) {
-  //     let j = i * divide;
-  //     let p = array.slice(j, j + divide);
-  //     newArray.push(p);
-  //   }
-  //   return newArray;
-  // };
-
   const genAnswer = (num: number[][] | null) => {
     let obj: Answer = {};
     num &&
@@ -44,20 +32,33 @@ const MultiplicationPage: NextPage = () => {
 
   const onClickJudge = () => {
     const Answer = genAnswer(number);
-    if (Object.keys(userAnswer).length == 10) {
-      isEqual(Answer, userAnswer) ? alert("全問正解です") : alert("不正解箇所があります");
+    if (without(Object.values(userAnswer), null).length == 10) {
+      if (isEqual(Answer, userAnswer)) {
+        setAlertFlag.off();
+        setNotFilledInFlag.off();
+        setFlag.on();
+      } else {
+        setFlag.off();
+        setNotFilledInFlag.off();
+        setAlertFlag.on();
+      }
     } else {
-      alert("すべての問題に回答してください");
+      setFlag.off();
+      setAlertFlag.off();
+      setNotFilledInFlag.on();
     }
   };
 
   const onChangeAnswer = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserAnswer((prev) => ({ ...prev, [e.target.name]: Number(e.target.value) }));
+    e.target.value == "" ? setUserAnswer((prev) => ({ ...prev, [e.target.name]: null })) : setUserAnswer((prev) => ({ ...prev, [e.target.name]: Number(e.target.value) }));
   };
 
   const RandomArray = chunk(getRandomArray(12, 20), 2);
   const [number, setNumber] = useState<number[][] | null>(null);
   const [userAnswer, setUserAnswer] = useState({});
+  const [flag, setFlag] = useBoolean();
+  const [notFilledInFlag, setNotFilledInFlag] = useBoolean();
+  const [alertFlag, setAlertFlag] = useBoolean();
 
   useEffect(() => {
     setNumber(RandomArray);
@@ -68,6 +69,27 @@ const MultiplicationPage: NextPage = () => {
       <Heading as="h1" size="2xl" textAlign="center" p="16px">
         かけざん
       </Heading>
+      {flag && (
+        <Alert status="success" variant="subtle" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center" height="200px">
+          <AlertIcon boxSize="40px" mr={0} />
+          <AlertTitle mt={4} mb={1} fontSize="lg">
+            合格
+          </AlertTitle>
+          <AlertDescription maxWidth="sm">すべてのもんだいにせいかいしました。つぎのもんだいにちょうせんしましょう！</AlertDescription>
+        </Alert>
+      )}
+      {notFilledInFlag && (
+        <Alert status="error">
+          <AlertIcon />
+          かいとうしていないもんだいがあります。
+        </Alert>
+      )}
+      {alertFlag && (
+        <Alert status="warning">
+          <AlertIcon />
+          まちがっているもんだいがあります。
+        </Alert>
+      )}
       <UnorderedList fontSize="32px" p="8px" m="0 auto">
         {number ? (
           number.map((dispNumber, index) => (
