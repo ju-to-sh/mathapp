@@ -1,7 +1,7 @@
 "use client";
 
-import { Container, Heading, UnorderedList, ListItem, Input, Box, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription, useBoolean } from "@chakra-ui/react";
-import { isEqual, chunk, without } from "lodash";
+import { Container, Heading, UnorderedList, ListItem, Input, Box, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription, useBoolean, Text, Flex } from "@chakra-ui/react";
+import { isEqual, chunk, without, omitBy } from "lodash";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 
@@ -41,6 +41,9 @@ const MultiplicationPage: NextPage = () => {
         setFlag.off();
         setNotFilledInFlag.off();
         setAlertFlag.on();
+        const diff = omitBy(userAnswer, (value, key) => Answer[key] === value);
+        const diffArray = Object.keys(diff).map((key) => key);
+        setMissAnswer(diffArray);
       }
     } else {
       setFlag.off();
@@ -56,6 +59,7 @@ const MultiplicationPage: NextPage = () => {
   const RandomArray = chunk(getRandomArray(12, 20), 2);
   const [number, setNumber] = useState<number[][] | null>(null);
   const [userAnswer, setUserAnswer] = useState({});
+  const [missAnswer, setMissAnswer] = useState<string[]>([]);
   const [flag, setFlag] = useBoolean();
   const [notFilledInFlag, setNotFilledInFlag] = useBoolean();
   const [alertFlag, setAlertFlag] = useBoolean();
@@ -84,12 +88,28 @@ const MultiplicationPage: NextPage = () => {
           かいとうしていないもんだいがあります。
         </Alert>
       )}
-      {alertFlag && (
-        <Alert status="warning">
-          <AlertIcon />
-          まちがっているもんだいがあります。
-        </Alert>
+      {alertFlag && missAnswer.length !== 0 ? (
+        <Box>
+          <Alert status="warning" variant="subtle" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center" height="auto">
+            <AlertIcon boxSize="16px" mr={0} />
+            <AlertTitle mt={1} mb={1} fontSize="sm">
+              まちがっているもんだいがあります。
+            </AlertTitle>
+            <AlertDescription maxWidth="sm">
+              <Flex flexDirection="row">
+                {missAnswer.map((missNumber) => (
+                  <Box key={missNumber} mr="4px">
+                    {missNumber}
+                  </Box>
+                ))}
+              </Flex>
+            </AlertDescription>
+          </Alert>
+        </Box>
+      ) : (
+        <></>
       )}
+
       <UnorderedList fontSize="32px" p="8px" m="0 auto">
         {number ? (
           number.map((dispNumber, index) => (
