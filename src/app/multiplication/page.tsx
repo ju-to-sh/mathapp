@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Heading, UnorderedList, ListItem, Input, Box, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription, useBoolean, Text, Flex } from "@chakra-ui/react";
+import { Container, Heading, UnorderedList, ListItem, Input, Box, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription, useBoolean, Flex } from "@chakra-ui/react";
 import { isEqual, chunk, without, omitBy } from "lodash";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -10,10 +10,10 @@ type Answer = {
 };
 
 const MultiplicationPage: NextPage = () => {
-  const getRandomArray = (range: number, length: number): number[] => {
+  const getRandomArray = (min: number, max: number, length: number): number[] => {
     const array = [];
     for (let i = 0; i < length; i++) {
-      array.push(Math.floor(Math.random() * range));
+      array.push(Math.floor(Math.random() * (max - min + 1)) + 1);
     }
 
     return array;
@@ -56,7 +56,7 @@ const MultiplicationPage: NextPage = () => {
     e.target.value == "" ? setUserAnswer((prev) => ({ ...prev, [e.target.name]: null })) : setUserAnswer((prev) => ({ ...prev, [e.target.name]: Number(e.target.value) }));
   };
 
-  const RandomArray = chunk(getRandomArray(12, 20), 2);
+  const RandomArray = chunk(getRandomArray(1, 10, 20), 2);
   const [number, setNumber] = useState<number[][] | null>(null);
   const [userAnswer, setUserAnswer] = useState({});
   const [missAnswer, setMissAnswer] = useState<string[]>([]);
