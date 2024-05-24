@@ -56,7 +56,7 @@ const MultiplicationPage: NextPage = () => {
     e.target.value == "" ? setUserAnswer((prev) => ({ ...prev, [e.target.name]: null })) : setUserAnswer((prev) => ({ ...prev, [e.target.name]: Number(e.target.value) }));
   };
 
-  const RandomArray = chunk(getRandomArray(1, 10, 20), 2);
+  const RandomArray = chunk(getRandomArray(1, 15, 20), 2);
   const [number, setNumber] = useState<number[][] | null>(null);
   const [userAnswer, setUserAnswer] = useState({});
   const [missAnswer, setMissAnswer] = useState<string[]>([]);

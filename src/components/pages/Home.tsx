@@ -1,0 +1,6 @@
+/* eslint-disable react/display-name */
+import { memo, FC } from "react";
+
+export const Home: FC = memo(() => {
+  return <p>ホームページです</p>;
+});
