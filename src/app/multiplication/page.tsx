@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Heading, UnorderedList, ListItem, Input, Box, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription, useBoolean, Flex } from "@chakra-ui/react";
+import { Container, Heading, UnorderedList, ListItem, Input, Box, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription, useBoolean, Flex, ButtonGroup } from "@chakra-ui/react";
 import { isEqual, chunk, without, omitBy } from "lodash";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -56,6 +56,8 @@ const MultiplicationPage: NextPage = () => {
     e.target.value == "" ? setUserAnswer((prev) => ({ ...prev, [e.target.name]: null })) : setUserAnswer((prev) => ({ ...prev, [e.target.name]: Number(e.target.value) }));
   };
 
+  const onClickRetry = () => location.reload();
+
   const RandomArray = chunk(getRandomArray(1, 15, 20), 2);
   const [number, setNumber] = useState<number[][] | null>(null);
   const [userAnswer, setUserAnswer] = useState({});
@@ -71,21 +73,21 @@ const MultiplicationPage: NextPage = () => {
   return (
     <Container maxW="md" bg="gray.200" color="#333333" textAlign="center" p="16px">
       <Heading as="h1" size="2xl" textAlign="center" p="16px">
-        かけざん
+        Question
       </Heading>
       {flag && (
         <Alert status="success" variant="subtle" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center" height="200px">
           <AlertIcon boxSize="40px" mr={0} />
           <AlertTitle mt={4} mb={1} fontSize="lg">
-            合格
+            Passed
           </AlertTitle>
-          <AlertDescription maxWidth="sm">すべてのもんだいにせいかいしました。つぎのもんだいにちょうせんしましょう！</AlertDescription>
+          <AlertDescription maxWidth="sm">You took care of everything. <br />Let&apos;s give the next lesson!</AlertDescription>
         </Alert>
       )}
       {notFilledInFlag && (
         <Alert status="error">
           <AlertIcon />
-          かいとうしていないもんだいがあります。
+          You have a problem that I haven&apos;t addressed yet.
         </Alert>
       )}
       {alertFlag && missAnswer.length !== 0 ? (
@@ -93,7 +95,7 @@ const MultiplicationPage: NextPage = () => {
           <Alert status="warning" variant="subtle" flexDirection="column" alignItems="center" justifyContent="center" textAlign="center" height="auto">
             <AlertIcon boxSize="16px" mr={0} />
             <AlertTitle mt={1} mb={1} fontSize="sm">
-              まちがっているもんだいがあります。
+              There are some things that are wrong.
             </AlertTitle>
             <AlertDescription maxWidth="sm">
               <Flex flexDirection="row">
@@ -114,7 +116,8 @@ const MultiplicationPage: NextPage = () => {
         {number ? (
           number.map((dispNumber, index) => (
             <ListItem key={index} display="flex" alignItems="center" justifyContent="center">
-              <Box p="8px">{`Q${index + 1}.  ${dispNumber[0]} × ${dispNumber[1]} = `}</Box>
+              <Box pr="24px">{`Q${index + 1}.`}</Box>
+              <Box p="8px">{`${dispNumber[0]} × ${dispNumber[1]} = `}</Box>
               <Input width="110px" fontSize="32px" borderColor="#333333" name={`Q${index + 1}`} type="number" onChange={onChangeAnswer} />
             </ListItem>
           ))
@@ -122,9 +125,16 @@ const MultiplicationPage: NextPage = () => {
           <Spinner size="xl" />
         )}
       </UnorderedList>
-      <Button variant="solid" colorScheme="blue" onClick={onClickJudge}>
-        回答する
-      </Button>
+      <Flex justify="center">
+        <ButtonGroup gap="2">
+          <Button variant="solid" colorScheme="blue" onClick={onClickJudge}>
+            Answer
+          </Button>
+          <Button variant="solid" colorScheme="teal" onClick={onClickRetry}>
+            Take it again
+          </Button>
+        </ButtonGroup>
+      </Flex>
     </Container>
   );
 };
