@@ -25,8 +25,8 @@ export const Quiz: FC = memo(() => {
       </Heading>
       <Wrap p={{ base: 4, md: 10 }}>
         {QuizData.map((data) => (
-          <WrapItem key={data.id}>
-            <CalculationCard src="https://source.unsplash.com/random" alt="足し算の写真" href={`/${data.category}`} title={data.title} content={data.content} />
+          <WrapItem key={data.id} pr={4}>
+            <CalculationCard src="https://source.unsplash.com/random/?lego" alt="足し算の写真" href={`/${data.category}`} title={data.title} content={data.content} />
           </WrapItem>
         ))}
       </Wrap>
