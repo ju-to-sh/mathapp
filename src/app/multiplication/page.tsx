@@ -1,9 +1,11 @@
 "use client";
-
+import NextLink from "next/link";
 import { Container, Heading, UnorderedList, ListItem, Input, Box, Button, Spinner, Alert, AlertIcon, AlertTitle, AlertDescription, useBoolean, Flex, ButtonGroup } from "@chakra-ui/react";
 import { isEqual, chunk, without, omitBy } from "lodash";
 import type { NextPage } from "next";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { QuizButtons } from "@/components/molecules/QuizButtons ";
 
 type Answer = {
   [key: string]: number;
@@ -55,8 +57,6 @@ const MultiplicationPage: NextPage = () => {
   const onChangeAnswer = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value == "" ? setUserAnswer((prev) => ({ ...prev, [e.target.name]: null })) : setUserAnswer((prev) => ({ ...prev, [e.target.name]: Number(e.target.value) }));
   };
-
-  const onClickRetry = () => location.reload();
 
   const RandomArray = chunk(getRandomArray(1, 15, 20), 2);
   const [number, setNumber] = useState<number[][] | null>(null);
@@ -125,16 +125,7 @@ const MultiplicationPage: NextPage = () => {
           <Spinner size="xl" />
         )}
       </UnorderedList>
-      <Flex justify="center">
-        <ButtonGroup gap="2">
-          <Button variant="solid" colorScheme="blue" onClick={onClickJudge}>
-            Answer
-          </Button>
-          <Button variant="solid" colorScheme="teal" onClick={onClickRetry}>
-            Take it again
-          </Button>
-        </ButtonGroup>
-      </Flex>
+      <QuizButtons onClick={onClickJudge} />
     </Container>
   );
 };
