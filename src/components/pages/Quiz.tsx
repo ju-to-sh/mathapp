@@ -11,10 +11,7 @@ type QuizData = {
 };
 
 const QuizData: Array<QuizData> = [
-  { id: 1, title: "addition", content: "Addition at first grade level", category: "addition" },
-  { id: 2, title: "subtraction", content: "Subtraction at first grade level", category: "subtraction" },
-  { id: 3, title: "multiplication", content: "Multiplication at 2nd grade level", category: "multiplication" },
-  { id: 4, title: "division", content: "Division at 2nd grade level", category: "division" },
+  { id: 1, title: "multiplication", content: "Multiplication at 2nd grade level", category: "multiplication" },
 ];
 
 export const Quiz: FC = memo(() => {

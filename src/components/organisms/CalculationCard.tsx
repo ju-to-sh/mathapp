@@ -26,7 +26,7 @@ export const CalculationCard: FC<Props> = memo((props) => {
       <CardFooter m="0 auto">
         <Link href={href}>
           <Button variant="solid" colorScheme="blue">
-            始める
+            Start
           </Button>
         </Link>
       </CardFooter>
