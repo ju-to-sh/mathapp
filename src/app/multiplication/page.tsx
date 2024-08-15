@@ -81,7 +81,10 @@ const MultiplicationPage: NextPage = () => {
           <AlertTitle mt={4} mb={1} fontSize="lg">
             Passed
           </AlertTitle>
-          <AlertDescription maxWidth="sm">You took care of everything. <br />Let&apos;s give the next lesson!</AlertDescription>
+          <AlertDescription maxWidth="sm">
+            You took care of everything. <br />
+            Let&apos;s give the next lesson!
+          </AlertDescription>
         </Alert>
       )}
       {notFilledInFlag && (
@@ -112,13 +115,13 @@ const MultiplicationPage: NextPage = () => {
         <></>
       )}
 
-      <UnorderedList fontSize="32px" p="8px" m="0 auto">
+      <UnorderedList p="8px" m="0 auto" fontSize={{ base: "28px", md: "36px" }}>
         {number ? (
           number.map((dispNumber, index) => (
             <ListItem key={index} display="flex" alignItems="center" justifyContent="center">
               <Box pr="24px">{`Q${index + 1}.`}</Box>
               <Box p="8px">{`${dispNumber[0]} × ${dispNumber[1]} = `}</Box>
-              <Input width="110px" fontSize="32px" borderColor="#333333" name={`Q${index + 1}`} type="number" onChange={onChangeAnswer} />
+              <Input width="110px" fontSize={{ base: "28px", md: "36px" }} borderColor="#333333" name={`Q${index + 1}`} type="number" onChange={onChangeAnswer} />
             </ListItem>
           ))
         ) : (

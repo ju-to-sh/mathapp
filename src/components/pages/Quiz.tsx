@@ -10,12 +10,7 @@ type QuizData = {
   category: "addition" | "subtraction" | "multiplication" | "division";
 };
 
-const QuizData: Array<QuizData> = [
-  { id: 1, title: "addition", content: "Addition at first grade level", category: "addition" },
-  { id: 2, title: "subtraction", content: "Subtraction at first grade level", category: "subtraction" },
-  { id: 3, title: "multiplication", content: "Multiplication at 2nd grade level", category: "multiplication" },
-  { id: 4, title: "division", content: "Division at 2nd grade level", category: "division" },
-];
+const QuizData: Array<QuizData> = [{ id: 1, title: "multiplication", content: "Multiplication at 2nd grade level", category: "multiplication" }];
 
 export const Quiz: FC = memo(() => {
   return (
@@ -25,8 +20,8 @@ export const Quiz: FC = memo(() => {
       </Heading>
       <Wrap p={{ base: 4, md: 10 }}>
         {QuizData.map((data) => (
-          <WrapItem key={data.id} pr={4}>
-            <CalculationCard src="https://source.unsplash.com/random/?lego" alt="足し算の写真" href={`/${data.category}`} title={data.title} content={data.content} />
+          <WrapItem key={data.id} m="0 auto">
+            <CalculationCard src="/img/multiplication.png" alt="picture" href={`/${data.category}`} title={data.title} content={data.content} />
           </WrapItem>
         ))}
       </Wrap>
