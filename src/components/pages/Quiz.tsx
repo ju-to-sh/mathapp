@@ -10,7 +10,10 @@ type QuizData = {
   category: "addition" | "subtraction" | "multiplication" | "division";
 };
 
-const QuizData: Array<QuizData> = [{ id: 1, title: "multiplication", content: "Multiplication at 2nd grade level", category: "multiplication" }];
+const QuizData: Array<QuizData> = [
+  { id: 1, title: "addition", content: "Addition at elementary school level", category: "addition" },
+  { id: 2, title: "multiplication", content: "Multiplication at 2nd grade level", category: "multiplication" },
+];
 
 export const Quiz: FC = memo(() => {
   return (
@@ -21,7 +24,7 @@ export const Quiz: FC = memo(() => {
       <Wrap p={{ base: 4, md: 10 }}>
         {QuizData.map((data) => (
           <WrapItem key={data.id} m="0 auto">
-            <CalculationCard src="/img/multiplication.png" alt="picture" href={`/${data.category}`} title={data.title} content={data.content} />
+            <CalculationCard src={data.category === "addition" ? "/img/car.svg" : "/img/multiplication.png"} alt="picture" href={`/${data.category}`} title={data.title} content={data.content} />
           </WrapItem>
         ))}
       </Wrap>
