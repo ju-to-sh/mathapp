@@ -156,7 +156,15 @@ const AdditionPage: NextPage = () => {
               <ListItem key={getQuestionKey(index)} display="flex" alignItems="center" justifyContent="center">
                 <Box pr="24px">{`${getQuestionKey(index)}.`}</Box>
                 <Box p="8px">{`${question.left} + ${question.right} = `}</Box>
-                <Input width="110px" fontSize={{ base: "28px", md: "36px" }} borderColor="#333333" name={getQuestionKey(index)} type="number" onChange={onChangeAnswer} />
+                <Input
+                  width="110px"
+                  fontSize={{ base: "28px", md: "36px" }}
+                  borderColor="#333333"
+                  name={getQuestionKey(index)}
+                  type="number"
+                  value={userAnswers[getQuestionKey(index)] ?? ""}
+                  onChange={onChangeAnswer}
+                />
               </ListItem>
             ))
           ) : (
