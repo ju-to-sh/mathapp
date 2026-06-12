@@ -45,17 +45,21 @@ const generateQuestions = (): Question[] => {
 const getQuestionKey = (index: number): string => `Q${index + 1}`;
 
 const AdditionPage: NextPage = () => {
-  const questions = useMemo(() => generateQuestions(), []);
+  const [questions, setQuestions] = useState<Question[]>(() => generateQuestions());
   const [userAnswers, setUserAnswers] = useState<UserAnswers>({});
   const [missAnswers, setMissAnswers] = useState<string[]>([]);
   const [isPassed, setIsPassed] = useBoolean();
   const [hasBlankAnswer, setHasBlankAnswer] = useBoolean();
   const [hasWrongAnswer, setHasWrongAnswer] = useBoolean();
 
-  const answerKey = questions.reduce<UserAnswers>((answers, question, index) => {
-    answers[getQuestionKey(index)] = question.left + question.right;
-    return answers;
-  }, {});
+  const answerKey = useMemo(
+    () =>
+      questions.reduce<UserAnswers>((answers, question, index) => {
+        answers[getQuestionKey(index)] = question.left + question.right;
+        return answers;
+      }, {}),
+    [questions],
+  );
 
   const onChangeAnswer = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -94,6 +98,15 @@ const AdditionPage: NextPage = () => {
     setIsPassed.off();
     setHasBlankAnswer.off();
     setHasWrongAnswer.on();
+  };
+
+  const onClickRetry = () => {
+    setQuestions(generateQuestions());
+    setUserAnswers({});
+    setMissAnswers([]);
+    setIsPassed.off();
+    setHasBlankAnswer.off();
+    setHasWrongAnswer.off();
   };
 
   return (
@@ -150,7 +163,7 @@ const AdditionPage: NextPage = () => {
             <Spinner size="xl" />
           )}
         </UnorderedList>
-        <QuizButtons onClick={onClickJudge} />
+        <QuizButtons onClick={onClickJudge} onRetry={onClickRetry} />
       </Container>
     </HeaderLayout>
   );
