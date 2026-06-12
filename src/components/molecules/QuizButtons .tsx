@@ -1,15 +1,27 @@
 /* eslint-disable react/display-name */
+"use client";
+
 import { memo, FC } from "react";
 import { Button, Flex, ButtonGroup, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 type Props = {
   onClick: () => void;
+  onRetry?: () => void;
 };
-const onClickRetry = () => location.reload();
 
 export const QuizButtons: FC<Props> = memo((props) => {
-  const { onClick } = props;
+  const { onClick, onRetry } = props;
+
+  const onClickRetry = () => {
+    if (onRetry) {
+      onRetry();
+      return;
+    }
+
+    window.location.reload();
+  };
+
   return (
     <Flex justify="center">
       <ButtonGroup gap="2">
